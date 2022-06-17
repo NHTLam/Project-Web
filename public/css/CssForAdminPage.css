@@ -1,0 +1,15 @@
+ul.navbar-nav a{
+    color: black;
+    text-decoration: none;
+    padding: 10px;
+    margin-left: -12px;
+    background-color: aliceblue;
+}
+ul.navbar-nav a:hover{
+    background-color: blue;
+    color: aliceblue;
+}
+#courseAdd{
+    float: right;
+    margin-bottom: 10px;
+}

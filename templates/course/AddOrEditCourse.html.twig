@@ -1,0 +1,19 @@
+{% form_theme formCourse 'bootstrap_5_layout.html.twig' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{title}} page{% endblock %}
+
+{% block body %}
+<div class = "container-fluid row">
+    <div class = "col-lg-2">
+        <ul class = "navbar-nav">
+            <a href="{{path('view_course')}}">Courses management</a>
+            <a href="">Classes management</a>
+        </ul>
+    </div>
+    <div class = "col-lg-10">
+        <h1 class = "text text-primary">{{title}} Course</h1>
+        {{form(formCourse)}}
+    </div>
+</div>
+{% endblock %}

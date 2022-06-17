@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin page{% endblock %}
+
+{% block body %}
+<div class = "container-fluid row">
+    <div class = "col-lg-2">
+        <ul class = "navbar-nav">
+            <a href="{{path('view_course')}}">Courses management</a>
+            <a href="">Classes management</a>
+        </ul>
+    </div>
+    <div class = "col-lg-10">
+        <h1 class="text-center text text-success">Courses management</h1>
+        {% for error in app.session.flashBag.get('Error') %}
+            <p class="alert alert-danger">{{ error }} </p>
+        {% endfor %}
+        {% for success in app.session.flashBag.get('Success') %}
+            <p class="alert alert-success">{{ success }} </p>
+        {% endfor %}
+        <a href="{{ path('view_course_add' )}}" class ="btn btn-success float-right" id ="courseAdd"> Add </a>
+        <table class="table table-bordered text-center">
+            <tr>
+                <th>Id</th>
+                <th>Course Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Lecturer</th>
+                <th>Classes</th>
+                <th>Action</th>
+            </tr>
+            {% for c in course %}
+                <tr>
+                    <td>{{c.id}}</td>
+                    <td>{{c.name}}</td>
+                    <td>{{c.StartDate | date('d-m-Y')}}</td>
+                    <td>{{c.EndDate | date('d-m-Y')}}</td>
+                    <td>
+                        {% if c.Lecturer != null %}
+                            {% for lec in c.Lecturer %}
+                                {{ lec.name }} <br>  
+                            {% endfor %}  
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if c.Classes != null %}
+                            {% for class in c.Classes %}
+                                {{ class.name }} <br> 
+                            {% endfor %}  
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{path('view_course_edit', {'id': c.id }) }}" class="btn btn-warning" >Edit</a>
+                        <a href="{{path('view_course_delete', {'id': c.id }) }}" class="btn btn-danger" class="btn btn-danger" 
+                        onclick="return confirm('Are you sure to delete this course ?');">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

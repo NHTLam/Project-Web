@@ -11,47 +11,45 @@
         </ul>
     </div>
     <div class = "col-lg-10">
-        <h1 class="text-center text text-success">Courses management</h1>
+        <h1 class="text-center text text-primary">Classes management</h1>
         {% for error in app.session.flashBag.get('Error') %}
             <p class="alert alert-danger">{{ error }} </p>
         {% endfor %}
         {% for success in app.session.flashBag.get('Success') %}
             <p class="alert alert-success">{{ success }} </p>
         {% endfor %}
-        <a href="{{ path('view_course_add' )}}" class ="btn btn-success float-right" id ="courseAdd"> Add </a>
+        <a href="{{ path('view_class_add' )}}" class ="btn btn-success float-right" id ="courseAdd"> Add </a>
         <table class="table table-bordered text-center">
             <tr>
                 <th>Id</th>
-                <th>Course Name</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Lecturer</th>
-                <th>Classes</th>
+                <th>Class Name</th>
+                <th>Number of Student</th>
+                {# <th>Lecturer</th> #}
+                <th>Course</th>
                 <th>Action</th>
             </tr>
-            {% for c in course %}
+            {% for c in class %}
                 <tr>
                     <td>{{c.id}}</td>
                     <td>{{c.name}}</td>
-                    <td>{{c.StartDate | date('d-m-Y')}}</td>
-                    <td>{{c.EndDate | date('d-m-Y')}}</td>
-                    <td>
+                    <td>{{c.StdQuantity}}</td>
+                    {# <td>
                         {% if c.Lecturer != null %}
                             {% for lec in c.Lecturer %}
                                 {{ lec.name }} <br>  
                             {% endfor %}  
                         {% endif %}
-                    </td>
+                    </td> #}
                     <td>
-                        {% if c.Classes != null %}
-                            {% for class in c.Classes %}
-                                {{ class.name }} <br> 
+                        {% if c.Course != null %}
+                            {% for course in c.Course %}
+                                {{ course.name }} <br> 
                             {% endfor %}  
                         {% endif %}
                     </td>
                     <td>
-                        <a href="{{path('view_course_edit', {'id': c.id }) }}" class="btn btn-warning" >Edit</a>
-                        <a href="{{path('view_course_delete', {'id': c.id }) }}" class="btn btn-danger" class="btn btn-danger" 
+                        <a href="{{path('view_class_edit', {'id': c.id }) }}" class="btn btn-warning" >Edit</a>
+                        <a href="{{path('view_class_delete', {'id': c.id }) }}" class="btn btn-danger" class="btn btn-danger" 
                         onclick="return confirm('Are you sure to delete this course ?');">Delete</a>
                     </td>
                 </tr>
@@ -60,3 +58,4 @@
     </div>
 </div>
 {% endblock %}
+

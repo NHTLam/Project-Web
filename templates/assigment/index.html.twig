@@ -20,7 +20,7 @@
                             </a>
                         </td>
                         <td>{{ assignment.file }}</td>
-                        <td>{{ assignment.submitdate | date('d/m/Y') }}</td>
+                        <td>{{ assignment.dateSubmit | date('d/m/Y') }}</td>
                         <td>{{ assignment.student }}</td>
                         <td>         
                             <a href="{{ path('edit_assignment', {'id': assignment.id})}}">Edit</a>               

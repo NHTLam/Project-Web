@@ -19,7 +19,7 @@ class AssigmentController extends AbstractController
         $assignments = $assignmentRepository->findAll();
         return $this->render('assigment/index.html.twig',
         [
-            'assignment' => $assignments
+            'assignments' => $assignments
         ]);
     }
 
@@ -89,7 +89,7 @@ class AssigmentController extends AbstractController
                 $manager->flush();
                 $this->addFlash("Success", "Edit assignment succeed !");  
                 return $this->redirectToRoute("view_assignment");
-        }
+            }
         }
         return $this->renderform("assigment/edit.html.twig", 
         [

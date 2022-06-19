@@ -7,7 +7,7 @@
             <img src="{{ asset('file/assignment/'~assignment.file) }}">
         </div>
         <div class="col">
-            <h4>Deadline: {{ assignment.submitdate | date('d/m/Y') }} </h4>
+            <h4>Deadline: {{ assignment.Datesubmit | date('d/m/Y') }} </h4>
             <h4>Course List: </h4>
             {% if assignment.student != null %}
                 {% for student in assignment.student %}

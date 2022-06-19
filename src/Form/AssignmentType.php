@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Student;
 use App\Entity\Assignment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,7 +36,7 @@ class AssignmentType extends AbstractType
             [
                 'label'=> 'Student',
                 'required' => true,
-                'class' => Assignment::class,
+                'class' => Student::class,
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true

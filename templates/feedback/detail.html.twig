@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div>
+        <h1> {{ assigmemt.title }} </h1>
+        <div>
+            <div>
+                <h4>Grade: {{ feedback.grade | date('d/m/Y') }}</h4>
+                <h4>Comment: {{ feedback.comment }}</h4>
+            </div>
+        </div>
+    </div>
+{% endblock %}

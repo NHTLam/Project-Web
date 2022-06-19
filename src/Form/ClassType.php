@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Classes;
-use App\Entity\Courses;
+use App\Entity\Student;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -29,6 +29,12 @@ class ClassType extends AbstractType
                     'min' => 20,
                     'max' => 25
                 ]
+            ])
+            ->add('studentList', EntityType::class, [
+                'label' => 'List student',
+                'class' => Student::class,
+                'choice_label' => 'name',
+                'multiple' => true
             ])
             ->add('student', FileType::class,
             [

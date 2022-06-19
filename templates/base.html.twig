@@ -16,9 +16,10 @@
         {% endblock %}
     </head>
 
+    {% block nav %}
     <nav class="navbar navbar-expand-sm navbar-light bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{path('app_home')}}"><b>Home</b></a>
+            <a class="navbar-brand" href="{{path('home')}}"><b>Home</b></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarID"
                 aria-controls="navbarID" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -26,11 +27,29 @@
             <div class="collapse navbar-collapse" id="navbarID">
                 <div class="navbar-nav">
                     <a class="nav-link active" aria-current="page" href="{{path('view_course')}}">Admin permission </a>
-                    
                 </div>
+                {% if app.user %}
+                    <div class="navbar-nav">
+                        <select onchange="window.location.href=this.value">
+                            <option>My Course</option>
+                            {# {% for c in Course %}
+                                <option value=""></option>
+                            {% endfor %} #}
+                        </select>
+                    </div>
+                    <div class="mt-1">
+                        <a class="btn btn-danger" href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% else %}
+                    <div class="mt-1">
+                        <a class="btn btn-danger" href="{{ path('app_login') }}">Login</a>
+                    </div>
+                {% endif %}
+                
             </div>
         </div>
     </nav>
+    {% endblock %}
 
     <body>
         {% block body %}{% endblock %}

@@ -21,15 +21,12 @@ class Student
     #[ORM\Column(type: 'string', length: 255)]
     private $image;
 
-    #[ORM\ManyToMany(targetEntity: Courses::class)]
-    private $Coures;
-
-    #[ORM\ManyToOne(targetEntity: Classes::class)]
-    private $Classes;
+    #[ORM\ManyToMany(targetEntity: Classes::class, mappedBy: 'studentList')]
+    private $classes;
 
     public function __construct()
     {
-        $this->Coures = new ArrayCollection();
+        $this->classes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -62,38 +59,30 @@ class Student
     }
 
     /**
-     * @return Collection<int, Courses>
+     * @return Collection<int, Classes>
      */
-    public function getCoures(): Collection
+    public function getClasses(): Collection
     {
-        return $this->Coures;
+        return $this->classes;
     }
 
-    public function addCoure(Courses $coure): self
+    public function addClass(Classes $class): self
     {
-        if (!$this->Coures->contains($coure)) {
-            $this->Coures[] = $coure;
+        if (!$this->classes->contains($class)) {
+            $this->classes[] = $class;
+            $class->addStudentList($this);
         }
 
         return $this;
     }
 
-    public function removeCoure(Courses $coure): self
+    public function removeClass(Classes $class): self
     {
-        $this->Coures->removeElement($coure);
+        if ($this->classes->removeElement($class)) {
+            $class->removeStudentList($this);
+        }
 
         return $this;
     }
 
-    public function getClasses(): ?Classes
-    {
-        return $this->Classes;
-    }
-
-    public function setClasses(?Classes $Classes): self
-    {
-        $this->Classes = $Classes;
-
-        return $this;
-    }
 }

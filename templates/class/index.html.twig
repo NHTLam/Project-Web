@@ -8,6 +8,7 @@
         <ul class = "navbar-nav">
             <a href="{{path('view_course')}}">Courses management</a>
             <a href="{{path('view_class')}}">Classes management</a>
+            <a href="{{path('app_register')}}">Create Account</a>
         </ul>
     </div>
     <div class = "col-lg-10">
@@ -52,12 +53,19 @@
                     <td>{{c.name}}</td>
                     <td>{{c.StdQuantity}}</td>
                     <td>
-                        <a class = "btn btn-primary" download="Test.xlsx" href="{{asset('file/'~c.student)}}" >Click to download</a>
+                        {% if c.studentList != null %}
+                            {% for stdList in c.studentList %}
+                                {{stdList.name}} <br>
+                            {% endfor %}
+                        {% else %}
+                            <i>N/A</i>
+                        {% endif %}
                     </td>
                     <td>
                         <a href="{{path('view_class_edit', {'id': c.id }) }}" class="btn btn-warning" >Edit</a>
                         <a href="{{path('view_class_delete', {'id': c.id }) }}" class="btn btn-danger" class="btn btn-danger" 
                         onclick="return confirm('Are you sure to delete this course ?');">Delete</a>
+                        <a class = "btn btn-primary" download="Test.xlsx" href="{{asset('file/'~c.student)}}" >Click to download</a>
                     </td>
                 </tr>
             {% endfor %}

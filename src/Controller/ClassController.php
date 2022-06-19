@@ -8,6 +8,9 @@ use App\Repository\ClassesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
+use function PHPUnit\Framework\throwException;
 
 #[Route('/class')]
 class ClassController extends AbstractController
@@ -45,6 +48,21 @@ class ClassController extends AbstractController
         $form -> handleRequest($request);
         $title = "Add new";
         if($form -> isSubmitted() && $form->isValid()){
+            $createFile = $form['student'] -> getData();
+            if ($createFile != null){
+                $file = $class->getStudent();
+                $fileName = uniqid();
+                $fileExtension = $file->guessExtension();
+                $fileFullName = $fileName.".".$fileExtension;
+                try{
+                    $file-> move(
+                        $this -> getParameter('student_file'), $fileName
+                    );
+                }catch(FileException $e){
+                    throwException($e);
+                }
+                $class-> setStudent($fileFullName);
+            }
             $manager = $this -> getDoctrine() -> getManager();
             $manager -> persist($class);
             $manager -> flush();
@@ -70,10 +88,25 @@ class ClassController extends AbstractController
             $title = "Update";
 
             if($form -> isSubmitted() && $form->isValid()){
+                $createFile = $form['student'] -> getData();
+                if ($createFile != null){
+                    $file = $class->getStudent();
+                    $fileName = uniqid();
+                    $fileExtension = $file->guessExtension();
+                    $fileFullName = $fileName.".".$fileExtension;
+                    try{
+                        $file-> move(
+                            $this -> getParameter('student_file'), $fileName
+                        );
+                    }catch(FileException $e){
+                        throwException($e);
+                    }
+                    $class-> setStudent($fileFullName);
+                }
                 $manager = $this -> getDoctrine() -> getManager();
                 $manager -> persist($class);
                 $manager -> flush();
-                $this -> addFlash("Success","Add new class succeed !");
+                $this -> addFlash("Success","Update class succeed !");
                 return $this -> redirectToRoute('view_class');
             }
             return $this-> render("class/AddAndEdit.html.twig", [
@@ -81,5 +114,63 @@ class ClassController extends AbstractController
                 'title' => $title
             ]);
         }
+    }
+
+    #[Route('/id/asc', name: 'sort_class_id_ascending')]
+    public function sortClassIdAscending (ClassesRepository $classesRepository) {
+        $class = $classesRepository->sortByIdAsc();
+        return $this -> render('class/index.html.twig', [
+            'class' => $class
+        ]);
+    }
+
+    #[Route('/id/desc', name: 'sort_class_id_descending')]
+    public function sortClassIdDescending (ClassesRepository $classesRepository) {
+        $class = $classesRepository->sortByIdDesc();
+        return $this -> render('class/index.html.twig', [
+            'class' => $class
+        ]);
+    }
+
+    #[Route('/name/asc', name: 'sort_class_name_ascending')]
+    public function sortClassNameAscending (ClassesRepository $classesRepository) {
+        $class = $classesRepository->sortByNameAsc();
+        return $this -> render('class/index.html.twig', [
+            'class' => $class
+        ]);
+    }
+
+    #[Route('/name/desc', name: 'sort_class_name_descending')]
+    public function sortClassNameDescending (ClassesRepository $classesRepository) {
+        $class = $classesRepository->sortByNameDesc();
+        return $this -> render('class/index.html.twig', [
+            'class' => $class
+        ]);
+    }
+
+    #[Route('/StdQuantity/asc', name: 'sort_class_StdQuantity_ascending')]
+    public function sortClassStdQuantityAscending (ClassesRepository $classesRepository) {
+        $class = $classesRepository->sortByNumberOfStudentAsc();
+        return $this -> render('class/index.html.twig', [
+            'class' => $class
+        ]);
+    }
+
+    #[Route('/StdQuantity/desc', name: 'sort_class_StdQuantity_descending')]
+    public function sortClassStdQuantityDescending (ClassesRepository $classesRepository) {
+        $class = $classesRepository->sortByNumberOfStudentDesc();
+        return $this -> render('class/index.html.twig', [
+            'class' => $class
+        ]);
+    }
+
+    #[Route('search', name: 'search_by_class_name')]
+    public function searchClassName (ClassesRepository $classesRepository, Request $request) 
+    {
+        $keyword = $request->get('keyword');
+        $class = $classesRepository->searchByName($keyword);
+        return $this -> render('class/index.html.twig', [
+            'class' => $class
+        ]);
     }
 }

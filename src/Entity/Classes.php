@@ -21,12 +21,15 @@ class Classes
     #[ORM\Column(type: 'integer')]
     private $StdQuantity;
 
-    #[ORM\ManyToMany(targetEntity: self::class)]
-    private $Course;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $Student;
+
+    #[ORM\ManyToMany(targetEntity: Courses::class, mappedBy: 'Classes')]
+    private $courses;
 
     public function __construct()
     {
-        $this->Course = new ArrayCollection();
+        $this->courses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,26 +61,41 @@ class Classes
         return $this;
     }
 
-    /**
-     * @return Collection<int, self>
-     */
-    public function getCourse(): Collection
+    public function getStudent()
     {
-        return $this->Course;
+        return $this->Student;
     }
 
-    public function addCourse(self $course): self
+    public function setStudent($Student): self
     {
-        if (!$this->Course->contains($course)) {
-            $this->Course[] = $course;
+        $this->Student = $Student;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Courses>
+     */
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+    public function addCourse(Courses $course): self
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses[] = $course;
+            $course->addClass($this);
         }
 
         return $this;
     }
 
-    public function removeCourse(self $course): self
+    public function removeCourse(Courses $course): self
     {
-        $this->Course->removeElement($course);
+        if ($this->courses->removeElement($course)) {
+            $course->removeClass($this);
+        }
 
         return $this;
     }

@@ -47,6 +47,92 @@ class ClassesRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+      * @return Classes[] 
+    */
+    public function sortByIdAsc()
+    {
+        return $this->createQueryBuilder('class')
+                    ->orderBy('class.id', 'ASC')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
+    /**
+      * @return Classes[] 
+    */
+    public function sortByIdDesc()
+    {
+        return $this->createQueryBuilder('class')
+                    ->orderBy('class.id', 'DESC')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+    
+    /**
+      * @return Classes[] 
+    */
+    public function sortByNameAsc()
+    {
+        return $this->createQueryBuilder('class')
+                    ->orderBy('class.name', 'ASC')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
+    /**
+      * @return Classes[] 
+    */
+    public function sortByNameDesc()
+    {
+        return $this->createQueryBuilder('class')
+                    ->orderBy('class.name', 'DESC')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
+    /**
+      * @return Classes[] 
+    */
+    public function sortByNumberOfStudentAsc()
+    {
+        return $this->createQueryBuilder('class')
+                    ->orderBy('class.StdQuantity', 'ASC')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
+    /**
+      * @return Classes[] 
+    */
+    public function sortByNumberOfStudentDesc()
+    {
+        return $this->createQueryBuilder('class')
+                    ->orderBy('class.StdQuantity', 'DESC')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
+    /**
+     * @return Classes[]
+     */
+    public function searchByName($keyword)  
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.name LIKE :value')
+            ->setParameter('value', '%' . $keyword . '%')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Classes[] Returns an array of Classes objects
     //  */

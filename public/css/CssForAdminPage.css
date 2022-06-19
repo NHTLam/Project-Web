@@ -13,3 +13,8 @@ ul.navbar-nav a:hover{
     float: right;
     margin-bottom: 10px;
 }
+div.dropdown{
+    float: right;
+    margin-top: 5px;
+    margin-right: 10px;
+}

@@ -4,10 +4,9 @@ namespace App\Form;
 
 use App\Entity\Classes;
 use App\Entity\Courses;
-use App\Entity\Lectures;
-use App\Entity\Student;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -31,17 +30,11 @@ class ClassType extends AbstractType
                     'max' => 25
                 ]
             ])
-            // ->add('students', EntityType::class, [
-            //     'label' => 'Student',
-            //     'class' => Student::class,
-            //     'choice_label' => 'name',
-            //     'multiple' => false,
-            // ])
-            ->add('course', EntityType::class, [
-                'label' => 'Course',
-                'class' => Courses::class,
-                'choice_label' => 'name',
-                'multiple' => true,
+            ->add('student', FileType::class,
+            [
+                'label' => 'Add File',
+                'data_class' => null,
+                'required' => is_null($builder->getData()->getStudent())
             ])
             ->add('submit', SubmitType::class);
         ;

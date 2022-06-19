@@ -24,16 +24,16 @@ class Courses
     #[ORM\Column(type: 'date')]
     private $endDate;
 
-    #[ORM\ManyToMany(targetEntity: Classes::class)]
-    private $Classes;
-
     #[ORM\ManyToMany(targetEntity: Lectures::class)]
     private $Lecturer;
 
+    #[ORM\ManyToMany(targetEntity: Classes::class, inversedBy: 'courses')]
+    private $Classes;
+
     public function __construct()
     {
-        $this->Classes = new ArrayCollection();
         $this->Lecturer = new ArrayCollection();
+        $this->Classes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -78,30 +78,6 @@ class Courses
     }
 
     /**
-     * @return Collection<int, Classes>
-     */
-    public function getClasses(): Collection
-    {
-        return $this->Classes;
-    }
-
-    public function addClass(Classes $class): self
-    {
-        if (!$this->Classes->contains($class)) {
-            $this->Classes[] = $class;
-        }
-
-        return $this;
-    }
-
-    public function removeClass(Classes $class): self
-    {
-        $this->Classes->removeElement($class);
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Lectures>
      */
     public function getLecturer(): Collection
@@ -121,6 +97,30 @@ class Courses
     public function removeLecturer(Lectures $lecturer): self
     {
         $this->Lecturer->removeElement($lecturer);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Classes>
+     */
+    public function getClasses(): Collection
+    {
+        return $this->Classes;
+    }
+
+    public function addClass(Classes $class): self
+    {
+        if (!$this->Classes->contains($class)) {
+            $this->Classes[] = $class;
+        }
+
+        return $this;
+    }
+
+    public function removeClass(Classes $class): self
+    {
+        $this->Classes->removeElement($class);
 
         return $this;
     }

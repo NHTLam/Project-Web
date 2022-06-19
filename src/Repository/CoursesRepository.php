@@ -47,6 +47,92 @@ class CoursesRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+      * @return Courses[] 
+    */
+    public function sortByIdAsc()
+    {
+        return $this->createQueryBuilder('c')
+                    ->orderBy('c.id', 'ASC')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
+    /**
+      * @return Courses[] 
+    */
+    public function sortByIdDesc()
+    {
+        return $this->createQueryBuilder('c')
+                    ->orderBy('c.id', 'DESC')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+    
+    /**
+      * @return Courses[] 
+    */
+    public function sortByStartDateAsc()
+    {
+        return $this->createQueryBuilder('c')
+                    ->orderBy('c.startDate', 'ASC')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
+    /**
+      * @return Courses[] 
+    */
+    public function sortByStartDateDesc()
+    {
+        return $this->createQueryBuilder('c')
+                    ->orderBy('c.startDate', 'DESC')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
+    /**
+      * @return Courses[] 
+    */
+    public function sortByEndDateAsc()
+    {
+        return $this->createQueryBuilder('c')
+                    ->orderBy('c.endDate', 'ASC')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
+    /**
+      * @return Courses[] 
+    */
+    public function sortByEndDateDesc()
+    {
+        return $this->createQueryBuilder('c')
+                    ->orderBy('c.endDate', 'DESC')
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
+    /**
+     * @return Courses[]
+     */
+    public function searchByName($keyword)  
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.name LIKE :value')
+            ->setParameter('value', '%' . $keyword . '%')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Courses[] Returns an array of Courses objects
     //  */

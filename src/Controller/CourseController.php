@@ -77,4 +77,69 @@ class CourseController extends AbstractController
             ]);
         }
     }
+
+    #[Route('/id/asc', name: 'sort_id_ascending')]
+    public function sortCourseIdAscending (CoursesRepository $coursesRepository) {
+        $course = $coursesRepository->sortByIdAsc();
+        return $this->render('course/index.html.twig',
+        [
+            'course' => $course
+        ]);
+    }
+
+    #[Route('/id/desc', name: 'sort_id_descending')]
+    public function sortCourseIdDescending (CoursesRepository $coursesRepository) {
+        $course = $coursesRepository->sortByIdDesc();
+        return $this->render('course/index.html.twig',
+        [
+            'course' => $course
+        ]);
+    }
+
+    #[Route('/StartDate/asc', name: 'sort_start_date_ascending')]
+    public function sortCourseStartDateAscending (CoursesRepository $coursesRepository) {
+        $course = $coursesRepository->sortByStartDateAsc();
+        return $this->render('course/index.html.twig',
+        [
+            'course' => $course
+        ]);
+    }
+
+    #[Route('/StartDate/desc', name: 'sort_start_date_descending')]
+    public function sortCourseStartDateDescending (CoursesRepository $coursesRepository) {
+        $course = $coursesRepository->sortByStartDateDesc();
+        return $this->render('course/index.html.twig',
+        [
+            'course' => $course
+        ]);
+    }
+
+    #[Route('/EndDate/asc', name: 'sort_end_date_ascending')]
+    public function sortCourseEndDateAscending (CoursesRepository $coursesRepository) {
+        $course = $coursesRepository->sortByEndDateAsc();
+        return $this->render('course/index.html.twig',
+        [
+            'course' => $course
+        ]);
+    }
+
+    #[Route('/EndDate/desc', name: 'sort_end_date_descending')]
+    public function sortCourseEndDateDescending (CoursesRepository $coursesRepository) {
+        $course = $coursesRepository->sortByEndDateDesc();
+        return $this->render('course/index.html.twig',
+        [
+            'course' => $course
+        ]);
+    }
+
+    #[Route('search', name: 'search_by_course_name')]
+    public function searchCourseName (CoursesRepository $coursesRepository, Request $request) 
+    {
+        $keyword = $request->get('keyword');
+        $course = $coursesRepository->searchByName($keyword);
+        return $this->render('course/index.html.twig',
+        [
+            'course' => $course
+        ]);
+    }
 }

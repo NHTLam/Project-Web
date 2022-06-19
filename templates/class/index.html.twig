@@ -19,13 +19,31 @@
             <p class="alert alert-success">{{ success }} </p>
         {% endfor %}
         <a href="{{ path('view_class_add' )}}" class ="btn btn-success float-right" id ="courseAdd"> Add </a>
+
+        <div class="dropdown">
+            <select onchange="window.location.href=this.value">
+                <option>Sort by</option>
+                <option value="{{ path('sort_class_id_ascending')}}">Id asc</option>
+                <option value="{{ path('sort_class_id_descending')}}">Id desc</option>
+                <option value="{{ path('sort_class_name_ascending')}}">Name asc</option>
+                <option value="{{ path('sort_class_name_descending')}}">Name desc</option>
+                <option value="{{ path('sort_class_StdQuantity_ascending')}}">Number of Student asc</option>
+                <option value="{{ path('sort_class_StdQuantity_descending')}}">Number of Student desc</option>
+            </select>
+        </div>
+
+        <div class="col-5">
+            <form class="form-group" action="{{ path('search_by_class_name')}}" method="post">
+                <input class="form-control" type="search" name="keyword" placeholder="Search by name">
+            </form>
+        </div>
+
         <table class="table table-bordered text-center">
             <tr>
                 <th>Id</th>
                 <th>Class Name</th>
                 <th>Number of Student</th>
-                {# <th>Lecturer</th> #}
-                <th>Course</th>
+                <th>List Student</th>
                 <th>Action</th>
             </tr>
             {% for c in class %}
@@ -33,19 +51,8 @@
                     <td>{{c.id}}</td>
                     <td>{{c.name}}</td>
                     <td>{{c.StdQuantity}}</td>
-                    {# <td>
-                        {% if c.Lecturer != null %}
-                            {% for lec in c.Lecturer %}
-                                {{ lec.name }} <br>  
-                            {% endfor %}  
-                        {% endif %}
-                    </td> #}
                     <td>
-                        {% if c.Course != null %}
-                            {% for course in c.Course %}
-                                {{ course.name }} <br> 
-                            {% endfor %}  
-                        {% endif %}
+                        <a class = "btn btn-primary" download="Test.xlsx" href="{{asset('file/'~c.student)}}" >Click to download</a>
                     </td>
                     <td>
                         <a href="{{path('view_class_edit', {'id': c.id }) }}" class="btn btn-warning" >Edit</a>

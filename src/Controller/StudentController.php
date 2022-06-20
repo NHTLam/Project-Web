@@ -16,7 +16,7 @@ class StudentController extends AbstractController
     public function FeedbackIndex(StudentRepository $studentRepository)
     {
         $students = $studentRepository->findAll();        
-        return $this->render('student/index.html.twig', 
+        return $this->render('student/detail.html.twig', 
         [
             'students' => $students
         ]);

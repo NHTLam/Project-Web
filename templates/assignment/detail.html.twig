@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<div class="">
+    <h1 class=""> {{ assignment.title }} </h1>
+    <div class="row">  
+            
+            <h4>Question: {{ assignment.question }}</h4>
+            <h4>Deadline: {{ assignment.deadline | date('d/m/Y') }} </h4>
+            <h4>Student List: </h4>
+            {% if assignment.student != null %}
+                {% for s in assignment.student %}
+                    <a href="{{ path('view_student', {'id': s.id })}}">
+                        <h5> {{ s.name }} </h5>
+                    </a>
+                {% endfor %}
+
+
+            {% endif %}
+        
+    </div>
+</div>
+{% endblock %}

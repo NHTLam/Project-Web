@@ -39,8 +39,9 @@ class FeedbackType extends AbstractType
             ->add('assignment', EntityType::class, 
             [
                 'label' => 'Assignment',
-                'requied' => true,
+                'required' => true,
                 'class' => Assignment::class,
+                'choice_label' => 'title',
                 'multiple' => false,
                 'expanded' => false
             ])

@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="container-flush col-8 ml-3">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Question</th>
+                    <th>Deadline</th>
+                    <th>Student</th>   
+                    <th>Menu</th>                 
+                </tr>
+            </thead>
+                {% for a in assignments %}
+                    <tr>
+                        
+                        <td>
+                            <a href="{{ path('view_assignment_by_id', {'id': a.id}) }}">
+                                {{ a.title }}
+                            </a>
+                        </td>
+                        <td>  
+                            {{ a.question }}                 
+                        </td>
+                        <td>{{ a.deadline | date('d/m/Y') }}</td>
+                        <td>
+                            {% for s in a.student %}
+                            {{ s.name }} <br>
+                            {% endfor %}</td>
+                        <td>         
+                            <a href="{{ path('edit_assignment', {'id': a.id})}}">Edit</a>               
+                            <a href="{{ path('delete_assignment', {'id': a.id})}}"
+                            onclick = "return confirm('Do you want to delete this assigmemt');"
+                            >Delete</a>                        
+                        </td>
+                    </tr>
+                {% endfor %}
+                    
+        </table>
+    </div>
+{% endblock %}

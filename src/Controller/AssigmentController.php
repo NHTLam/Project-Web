@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use App\DataFixtures\Assigment;
 use App\Entity\Assignment;
+use App\Form\AssignmentType;
+use App\DataFixtures\Assigment;
 use App\Repository\AssignmentRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/assignment')]
 class AssigmentController extends AbstractController
@@ -17,7 +18,7 @@ class AssigmentController extends AbstractController
     public function AssigmentIndex(AssignmentRepository $assignmentRepository)
     {
         $assignments = $assignmentRepository->findAll();
-        return $this->render('assigment/index.html.twig',
+        return $this->render('assignment/index.html.twig',
         [
             'assignments' => $assignments
         ]);
@@ -27,7 +28,7 @@ class AssigmentController extends AbstractController
     public function AssignmentDetail(AssignmentRepository $assignmentRepository, $id)
     {
         $assignment = $assignmentRepository->find($id);
-        return $this->render("assignment/detail.html.twig",
+        return $this->render('assignment/detail.html.twig',
         [
             'assignment' => $assignment
         ]);
@@ -44,12 +45,12 @@ class AssigmentController extends AbstractController
             $this->addFlash("Error", "Asssignment not found !");
         }
         else {
-            $manager = $this->getDoctrine()->getManager;
+            $manager = $this->getDoctrine()->getManager();
             $manager->remove($assignment);
             $manager->flush();
             $this->addFlash("Success", "Delete assigment succeed");   
         }
-        return $this->redirect("view_assignment");
+        return $this->redirectToRoute("view_assignment");
     }
 
     // /**
@@ -63,11 +64,12 @@ class AssigmentController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
+            $manager->persist($assignment);
             $manager->flush();
             $this->addFlash("Success", "Add assignment succeed !");  
             return $this->redirectToRoute("view_assignment");
         }
-        return $this->render("assigment/add.html.twig", 
+        return $this->render('assignment/add.html.twig', 
         [
             'assignmentForm' => $form->createView() 
         ]);
@@ -86,12 +88,13 @@ class AssigmentController extends AbstractController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $manager = $this->getDoctrine()->getManager();
+                $manager->persist($assignment);
                 $manager->flush();
                 $this->addFlash("Success", "Edit assignment succeed !");  
                 return $this->redirectToRoute("view_assignment");
             }
         }
-        return $this->renderform("assigment/edit.html.twig", 
+        return $this->renderform('assignment/edit.html.twig', 
         [
             'assignmentForm' => $form
         ]);

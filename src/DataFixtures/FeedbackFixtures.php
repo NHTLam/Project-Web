@@ -10,11 +10,11 @@ class FeedbackFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        for($i=1; $i<=3; $i++){
+        for($i=1; $i<=10; $i++){
             $feedback = new Feedback;
-            $feedback->getGrade((float)(rand(0,100)));
-            $feedback->getComment("Comment for assigment $i");
-            $feedback->getDateFeedback(\DateTime::createFromFormat('Y/m/d', '2022/07/01'));
+            $feedback->setGrade((float)(rand(0,10)));
+            $feedback->setComment("Comment for assigment $i");
+            $feedback->setDateFeedback(\DateTime::createFromFormat('Y/m/d', '2022/07/01'));
             $manager->persist($feedback);            
         }
 

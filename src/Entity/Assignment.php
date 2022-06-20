@@ -16,49 +16,65 @@ class Assignment
     private $id;
 
     #[ORM\Column(type: 'date')]
-    private $DateSubmit;
+    private $deadline;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $file;
+    private $question;
 
-    #[ORM\ManyToMany(mappedBy: 'assignment', targetEntity: Student::class)]
-    private $Student;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $Title;
+
+    #[ORM\ManyToMany(targetEntity: Student::class, inversedBy: 'assignment')]
+    private $Student;
+
 
     public function __construct()
     {
         $this->Student = new ArrayCollection();
     }
 
+
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function geDateSubmit(): ?\DateTimeInterface
+    public function getDeadline(): ?\DateTimeInterface
     {
-        return $this->DateSubmit;
+        return $this->deadline;
     }
 
-    public function setDateSubmit(\DateTimeInterface $DateSubmit): self
+    public function setDeadline(\DateTimeInterface $deadline): self
     {
-        $this->DateSubmit = $DateSubmit;
+        $this->deadline = $deadline;
 
         return $this;
     }
 
-    public function getFile()
+    public function getQuestion(): ?string
     {
-        return $this->file;
+        return $this->question;
     }
 
-    public function setFile($file): self
+    public function setQuestion($question): self
+    {       
+        $this->question = $question;         
+
+        return $this;
+    }
+
+
+
+    public function getTitle(): ?string
     {
-        if($file!=null){
-            $this->file = $file;
-        }       
+        return $this->Title;
+    }
+
+    public function setTitle(string $Title): self
+    {
+        $this->Title = $Title;
 
         return $this;
     }
@@ -75,7 +91,6 @@ class Assignment
     {
         if (!$this->Student->contains($student)) {
             $this->Student[] = $student;
-            $student->setAssignment($this);
         }
 
         return $this;
@@ -83,25 +98,9 @@ class Assignment
 
     public function removeStudent(Student $student): self
     {
-        if ($this->Student->removeElement($student)) {
-            // set the owning side to null (unless already changed)
-            if ($student->getAssignment() === $this) {
-                $student->setAssignment(null);
-            }
-        }
+        $this->Student->removeElement($student);
 
         return $this;
     }
 
-    public function getTitle(): ?string
-    {
-        return $this->Title;
-    }
-
-    public function setTitle(string $Title): self
-    {
-        $this->Title = $Title;
-
-        return $this;
-    }
 }

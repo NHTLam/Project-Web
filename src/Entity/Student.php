@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StudentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
@@ -16,11 +18,8 @@ class Student
     #[ORM\Column(type: 'string', length: 30)]
     private $name;
 
-    #[ORM\ManyToMany(targetEntity: Assignment::class, inversedBy: 'Student')]
-    private $assignment;
+   
 
-    #[ORM\ManyToOne(targetEntity: Major::class, inversedBy: 'students')]
-    private $major;
 
     #[ORM\Column(type: 'string', length: 10)]
     private $gender;
@@ -33,6 +32,14 @@ class Student
 
     #[ORM\Column(type: 'string', length: 255)]
     private $email;
+
+    #[ORM\ManyToMany(targetEntity: Assignment::class, mappedBy: 'Student')]
+    private $assignment;
+
+    public function __construct()
+    {
+        $this->assignment = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -51,29 +58,7 @@ class Student
         return $this;
     }
 
-    public function getAssignment(): ?Assignment
-    {
-        return $this->assignment;
-    }
 
-    public function setAssignment(?Assignment $assignment): self
-    {
-        $this->assignment = $assignment;
-
-        return $this;
-    }
-
-    public function getMajor(): ?Major
-    {
-        return $this->major;
-    }
-
-    public function setMajor(?Major $major): self
-    {
-        $this->major = $major;
-
-        return $this;
-    }
 
     public function getGender(): ?string
     {
@@ -119,6 +104,33 @@ class Student
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Assignment>
+     */
+    public function getAssignment(): Collection
+    {
+        return $this->assignment;
+    }
+
+    public function addAssignment(Assignment $assignment): self
+    {
+        if (!$this->assignment->contains($assignment)) {
+            $this->assignment[] = $assignment;
+            $assignment->addStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssignment(Assignment $assignment): self
+    {
+        if ($this->assignment->removeElement($assignment)) {
+            $assignment->removeStudent($this);
+        }
 
         return $this;
     }

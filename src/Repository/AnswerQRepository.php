@@ -2,32 +2,32 @@
 
 namespace App\Repository;
 
-use App\Entity\Major;
+use App\Entity\AnswerQ;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Major>
+ * @extends ServiceEntityRepository<AnswerQ>
  *
- * @method Major|null find($id, $lockMode = null, $lockVersion = null)
- * @method Major|null findOneBy(array $criteria, array $orderBy = null)
- * @method Major[]    findAll()
- * @method Major[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method AnswerQ|null find($id, $lockMode = null, $lockVersion = null)
+ * @method AnswerQ|null findOneBy(array $criteria, array $orderBy = null)
+ * @method AnswerQ[]    findAll()
+ * @method AnswerQ[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MajorRepository extends ServiceEntityRepository
+class AnswerQRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Major::class);
+        parent::__construct($registry, AnswerQ::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Major $entity, bool $flush = true): void
+    public function add(AnswerQ $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -39,7 +39,7 @@ class MajorRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Major $entity, bool $flush = true): void
+    public function remove(AnswerQ $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -48,15 +48,15 @@ class MajorRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Major[] Returns an array of Major objects
+    //  * @return AnswerQ[] Returns an array of AnswerQ objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
+            ->orderBy('a.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -65,10 +65,10 @@ class MajorRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Major
+    public function findOneBySomeField($value): ?AnswerQ
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()

@@ -4,6 +4,7 @@
 {% block title %}{{title}} page{% endblock %}
 
 {% block body %}
+{% if is_granted('ROLE_ADMIN') %}
 <div class = "container-fluid row">
     <div class = "col-lg-2">
         <ul class = "navbar-nav">
@@ -17,4 +18,5 @@
         {{form(classForm)}}
     </div>
 </div>
+{% endif %}
 {% endblock %}

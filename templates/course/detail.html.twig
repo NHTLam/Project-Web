@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Course {% endblock %}
+
+{% block body %}
+<div class = "col-9 ">
+    <h2>Course Detail</h2>
+    {% set i = 0 %}
+    {% for l in 1..10 %}
+        <div class = "detail">
+            {% set y = i + 4 %}
+            Section {{i + 1}} - {{y}}
+            <a href=""><img src="{{asset('image/image01.png')}}" alt="" with="20" height="20"></a>
+        </div>
+        {% set i = y %}
+    {% endfor %}
+</div>
+{% endblock %}
+

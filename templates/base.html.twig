@@ -25,13 +25,17 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarID">
-                <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="{{path('view_course')}}">Admin permission </a>
-                </div>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" href="{{path('view_course')}}">Admin permission </a>
+                    </div>
+                {% endif %}
+
                 {% if app.user %}
                     <div class="navbar-nav">
                         <select onchange="window.location.href=this.value">
                             <option>My Course</option>
+                            <option value="{{path('view_course_detail')}}">Course</option>
                             {# {% for c in Course %}
                                 <option value=""></option>
                             {% endfor %} #}

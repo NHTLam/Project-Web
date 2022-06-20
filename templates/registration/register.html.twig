@@ -4,6 +4,7 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+{% if is_granted('ROLE_ADMIN') %}
 <div class = "container-fluid row">
     <div class = "col-lg-2">
         <ul class = "navbar-nav">
@@ -19,10 +20,12 @@
                 {{ form_row(registrationForm.plainPassword, {
                     label: 'Password'
                 }) }}
-                {{ form_row(registrationForm.agreeTerms) }}
+                {{ form_row(registrationForm.roles) }}
+                {# {{ form_row(registrationForm.agreeTerms) }} #}
 
                 <button type="submit" class="btn btn-info">Register</button>
             {{ form_end(registrationForm) }}
     </div>
 </div>
+{% endif %}
 {% endblock %}

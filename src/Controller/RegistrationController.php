@@ -11,7 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;	
 
+/**
+ * @IsGranted("ROLE_ADMIN")
+ */
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
@@ -23,6 +27,8 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+            $user->setRoles($form->get('role')->getData());
+            
             $user->setPassword(
             $userPasswordHasher->hashPassword(
                     $user,

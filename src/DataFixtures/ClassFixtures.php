@@ -14,6 +14,7 @@ class ClassFixtures extends Fixture
             $class = new Classes;
             $class -> setName("Class $i");
             $class -> setStdQuantity(rand(20,25));
+            $class -> setStudent(" ");
             $manager->persist($class);
         }
 

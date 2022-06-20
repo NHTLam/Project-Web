@@ -24,7 +24,7 @@ class CourseController extends AbstractController
         ]);
     }
 
-    #[Route('/view', name: 'view_course_detail')]
+    #[Route('/view/{id}', name: 'view_course_detail')]
     public function CourseDetail(CoursesRepository $coursesRepository){
         $course = $coursesRepository ->findAll();
         if ($course == null) {
@@ -32,7 +32,7 @@ class CourseController extends AbstractController
             return $this->redirectToRoute("view_course");        
         } else {
             return $this -> render('course/detail.html.twig',[
-                'course' => $course
+                'course' => $course,
             ]);
         }
     }

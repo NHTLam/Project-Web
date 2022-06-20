@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Classes;
+use App\Entity\Courses;
 use App\Form\ClassType;
 use App\Repository\ClassesRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,8 +22,10 @@ class ClassController extends AbstractController
     #[Route('/', name: 'view_class')]
     public function classIndex(ClassesRepository $classesRepository){
         $class = $classesRepository -> findAll();
+        $course = $this -> getDoctrine() -> getRepository(Courses::class) -> findAll();
         return $this -> render('class/index.html.twig', [
-            'class' => $class
+            'class' => $class,
+            'course' => $course
         ]);
     }
 
@@ -32,9 +35,6 @@ class ClassController extends AbstractController
         if ($class == null){
             $this -> addFlash('Error', 'Class not found');
         }
-        // elseif (count($class->getCourses()) >= 1) {
-        //     $this -> addFlash("Error", "This person relate to other data, can not delete");
-        // }
         else{
             $manager = $this -> getDoctrine() -> getManager();
             $manager->remove($class);
@@ -47,6 +47,7 @@ class ClassController extends AbstractController
     #[Route('/add', name: 'view_class_add')]
     public function classAdd(Request $request){
         $class = new Classes;
+        $course = $this -> getDoctrine() -> getRepository(Courses::class) -> findAll();
         $form = $this -> createForm(ClassType::class, $class);
         $form -> handleRequest($request);
         $title = "Add new";
@@ -74,13 +75,15 @@ class ClassController extends AbstractController
         }
         return $this-> render("class/AddAndEdit.html.twig", [
             'classForm' => $form->createView(),
-            'title' => $title
+            'title' => $title,
+            'course' => $course
         ]);
     }
 
     #[Route('/edit/{id}', name: 'view_class_edit')]
     public function classEdit(Request $request, ClassesRepository $classesRepository, $id){
         $class = $classesRepository -> find($id);
+        $course = $this -> getDoctrine() -> getRepository(Courses::class) -> findAll();
         if ($class == null) {
             $this->addFlash("Error","Class not found !");
             return $this->redirectToRoute("view_class");        
@@ -114,7 +117,8 @@ class ClassController extends AbstractController
             }
             return $this-> render("class/AddAndEdit.html.twig", [
                 'classForm' => $form->createView(),
-                'title' => $title
+                'title' => $title,
+                'course' => $course
             ]);
         }
     }

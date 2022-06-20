@@ -30,10 +30,14 @@ class Courses
     #[ORM\ManyToMany(targetEntity: Classes::class, inversedBy: 'courses')]
     private $Classes;
 
+    #[ORM\ManyToMany(targetEntity: Student::class, inversedBy: 'courses')]
+    private $Student;
+
     public function __construct()
     {
         $this->Lecturer = new ArrayCollection();
         $this->Classes = new ArrayCollection();
+        $this->Student = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -121,6 +125,30 @@ class Courses
     public function removeClass(Classes $class): self
     {
         $this->Classes->removeElement($class);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Student>
+     */
+    public function getStudent(): Collection
+    {
+        return $this->Student;
+    }
+
+    public function addStudent(Student $student): self
+    {
+        if (!$this->Student->contains($student)) {
+            $this->Student[] = $student;
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): self
+    {
+        $this->Student->removeElement($student);
 
         return $this;
     }

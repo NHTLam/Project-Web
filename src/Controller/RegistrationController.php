@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Courses;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,12 +23,13 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
+        $register = $this -> getDoctrine() -> getRepository(Courses::class) -> findAll();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-            $user->setRoles($form->get('role')->getData());
+            $user->setRoles($form->get('roles')->getData());
             
             $user->setPassword(
             $userPasswordHasher->hashPassword(
@@ -45,6 +47,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'coursedata' => $register
         ]);
     }
 }

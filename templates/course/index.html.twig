@@ -2,6 +2,17 @@
 
 {% block title %}Admin page{% endblock %}
 
+{% block dropdown %}
+    <div class="navbar-nav">
+        <select onchange="window.location.href=this.value" id= "MyCourse_Btn" class ="btn btn-primary">
+            <option class= "option">My Course</option>
+            {% for c in course %}
+                    <option value="{{path('view_course_detail' ,{'id': c.id }) }}">{{c.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endblock %}
+
 {% block body %}
 {% if is_granted('ROLE_ADMIN') %}
 <div class = "container-fluid row">

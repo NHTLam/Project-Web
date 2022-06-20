@@ -34,11 +34,12 @@ class RegistrationFormType extends AbstractType
 
             ->add('roles', ChoiceType::class, [
                 'label' => 'Roles',
-                'choices' => [
-                    'admin' => 'role',
-                    'lecturer' => 'role',
-                    'student' => 'role'
-                ]
+                'choices' => array(
+                    'admin' => 'ROLE_ADMIN',
+                    'lecturer' => 'ROLE_LECTURER',
+                    'student' => 'ROLE_STUDENT'
+                ),
+                'multiple' => true
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,

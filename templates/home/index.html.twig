@@ -2,6 +2,19 @@
 
 {% block title %}Hello HomeController!{% endblock %}
 
+{% block dropdown %}
+{% if app.user %}
+    <div class="navbar-nav">
+        <select onchange="window.location.href=this.value" id= "MyCourse_Btn" class ="btn btn-primary">
+            <option class= "option">My Course</option>
+            {% for h in homedata %}
+                    <option value="{{path('view_course_detail' ,{'id': h.id }) }}">{{h.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endif %}
+{% endblock %}
+
 {% block body %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }

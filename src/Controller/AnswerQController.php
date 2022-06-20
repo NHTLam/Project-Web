@@ -43,7 +43,7 @@ class AnswerQController extends AbstractController
         }
         else
         {
-            $form = $this->createForm(AnswerType::class, $answer);
+            $form = $this->createForm(AnswerQType::class, $answer);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $manager = $this->getDoctrine()->getManager();

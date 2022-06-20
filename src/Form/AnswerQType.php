@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Submit;
+use App\Entity\AnswerQ;
 use App\Entity\Assignment;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Component\Form\AbstractType;
@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
-class AnswerType extends AbstractType
+class AnswerQType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -31,8 +31,9 @@ class AnswerType extends AbstractType
             [
                 'label'=> 'Assignment',
                 'required' => true,
+                'mapped' => false,
                 'class' => Assignment::class,
-                'choice_label' => 'name',
+                'choice_label' => 'Title',
                 'multiple' => true,
                 'expanded' => true
             ])
@@ -43,7 +44,7 @@ class AnswerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class'=> Answer::class
+            'data_class'=> AnswerQ::class
         ]);
     }
 }

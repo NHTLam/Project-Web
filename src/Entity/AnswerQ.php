@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AnswerQRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: AnswerQRepository::class)]
 class AnswerQ
@@ -19,8 +20,15 @@ class AnswerQ
     #[ORM\Column(type: 'date')]
     private $datesubmit;
 
-    #[ORM\OneToOne(targetEntity: assignment::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Assignment::class, cascade: ['persist', 'remove'])]
     private $assignment;
+
+  
+    // public function __construct()
+    // {
+    //     $this->assignment = new ArrayCollection();
+
+    // }
 
     public function getId(): ?int
     {
@@ -51,15 +59,18 @@ class AnswerQ
         return $this;
     }
 
-    public function getAssignment(): ?assignment
+    public function getAssignment(): ?Assignment
     {
         return $this->assignment;
     }
 
-    public function setAssignment(?assignment $assignment): self
+    public function setAssignment(?Assignment $assignment): self
     {
         $this->assignment = $assignment;
 
         return $this;
     }
+
+
+    
 }

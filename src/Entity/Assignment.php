@@ -28,11 +28,16 @@ class Assignment
     #[ORM\ManyToMany(targetEntity: Student::class, inversedBy: 'assignment')]
     private $Student;
 
+    #[ORM\OneToOne(targetEntity: AnswerQ::class, inversedBy: 'answer_q')]
+    private $answer;
+
 
     public function __construct()
     {
-        $this->Student = new ArrayCollection();
+        $this->Student = new ArrayCollection();        
     }
+
+    
 
 
 
@@ -102,5 +107,6 @@ class Assignment
 
         return $this;
     }
+
 
 }

@@ -2,17 +2,23 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\StudentRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class StudentController extends AbstractController
 {
-    #[Route('/student', name: 'app_student')]
-    public function index(): Response
+    
+
+    #[Route('/', name: 'view_student')]
+    public function FeedbackIndex(StudentRepository $studentRepository)
     {
-        return $this->render('student/index.html.twig', [
-            'controller_name' => 'StudentController',
+        $students = $studentRepository->findAll();        
+        return $this->render('student/index.html.twig', 
+        [
+            'students' => $students
         ]);
     }
 }

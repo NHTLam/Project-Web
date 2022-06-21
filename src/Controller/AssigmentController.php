@@ -104,6 +104,21 @@ class AssigmentController extends AbstractController
     }
 
 
+    // #[Route('/answer/delete/{id}', name: 'delete_answer')]
+    // public function AnswerDelete(AssignmentRepository $assignmentRepository, $id)
+    // {
+    //     $answer = $assignmentRepository->find($id);
+    //     if ($answer == null){
+    //         $this->addFlash("Error", "Asssignment not found !");
+    //     }
+    //     else {
+    //         $manager = $this->getDoctrine()->getManager();
+    //         $manager->remove($answer);
+    //         $manager->flush();
+    //         $this->addFlash("Success", "Delete answer succeed");   
+    //     }
+    //     return $this->redirectToRoute("view_assignment");
+    // }
 
     #[Route('/answer/add/{id}', name: 'add_answer')]
     public function AnswerAdd(AssignmentRepository $assignmentRepository, Request $request, $id)
@@ -190,6 +205,16 @@ class AssigmentController extends AbstractController
         }
         return $this->render('assignment/edit_feedback.html.twig', [
             'feedbackForm' => $form ->createView()
+        ]);
+    }
+
+    #[Route('/feedback', name: 'view_feedback')]
+    public function FeedbackIndex(AssignmentRepository $assignmentRepository)
+    {
+        $assignments = $assignmentRepository->findAll();
+        return $this->render('assignment/index_feedback.html.twig',
+        [
+            'assignments' => $assignments
         ]);
     }
 

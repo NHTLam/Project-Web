@@ -1,0 +1,21 @@
+.asm{
+    padding-left: 30px;
+}
+
+.addbtn{
+    float: right;
+    margin: 0 3px;
+}
+
+.editbtn{
+
+    margin: 10px 5px;    
+
+}
+.title{
+    text-decoration: none;    
+}
+
+table.table.table-striped.asmdetail {
+    margin-bottom: 0;
+}

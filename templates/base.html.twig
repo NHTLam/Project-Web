@@ -6,8 +6,19 @@
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-            <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+            <link rel="stylesheet" href="{{ asset('css/assignment.css')}}">            
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        {% endblock %}
+        
+        {% block message %}
+        <div class=" asm col-md-10 mb-3 mt-4">
+            {% for error in app.session.flashBag.get('Error') %}
+                <p class="alert alert-danger">{{ error }} </p>
+            {% endfor %}
+            {% for success in app.session.flashBag.get('Success') %}
+                <p class="alert alert-success">{{ success }} </p>
+        </div>
+        {% endfor %}
         {% endblock %}
 
         {% block javascripts %}
@@ -17,4 +28,7 @@
     <body>
         {% block body %}{% endblock %}
     </body>
+
+    
 </html>
+

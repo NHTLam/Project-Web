@@ -1,33 +1,97 @@
 {% extends "base.html.twig" %}
 {% block body %}
-<div class="">
-    <h1 class=""> {{ assignment.title }} </h1>
+<div class=" col-md-5 mt-3 asm">
+    <h1> Assignment Detail</h1>
+    <table class="table table-striped asmdetail">       
+        <tr>
+            <th>Title</th>
+            <td>{{ assignment.title }}</td>
+        </tr>
+        <tr>
+            <th>Question</th>
+            <td>{{ assignment.question }}</td>
+        </tr>
+        <tr>
+            <th>Deadline</th>
+            <td>{{ assignment.deadline | date('d/m/Y') }}</td>
+        </tr>
+        <tr>
+            <th>Student need done</th>
+            <td>
+                {% if assignment.student != null %}
+                    {% for s in assignment.student %}
+                    <a class="title " href="{{ path('view_student', {'id': s.id })}}">
+                        <h6> {{ s.name }} </h6>
+                    </a>
+                    {% endfor %}
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+        {% if assignment.answer == null %}
+            <a class = "btn btn-primary col-5 editbtn" href="{{ path('add_answer',{'id':assignment.id})}}" >Add answer</a>
+        {% endif %}
+        
+        
+        <a class = "btn btn-success col-5 editbtn" href="{{ path('edit_answer', {'id':assignment.id})}}">Edit answer</a>
+
+    <table class="table table-striped asmdetail">  
+        <tr>
+            <th>Answer</th>
+            <td>{{ assignment.answer }}</td>
+        </tr>
+        <tr>
+            <th>Date Submit</th>
+            <td>{{ assignment.datesubmit | date('d/m/Y') }}</td>
+        </tr>
+    </table>
+
+        {% if assignment.grade == null %}
+            <a class = "btn btn-primary col-5 editbtn" href="{{ path('add_feedback', {'id':assignment.id})}}" >Add Feedback</a>
+        {% endif %}       
+        
+        <a class = "btn btn-success col-5 editbtn" href="{{ path('edit_feedback', {'id':assignment.id})}}">Edit Feedback</a>
+
+    <table class="table table-striped">  
+        <tr>
+            <th>Grade</th>
+            <td>{{ assignment.grade }}</td>
+        </tr>
+        <tr>
+            <th>Comment</th>
+            <td>{{ assignment.comment }}</td>
+        </tr>
+        <tr>
+            <th>Date Feedback</th>
+            <td>{{ assignment.datefeedback | date('d/m/Y') }}</td>
+        </tr>
+    </table>
+
+    
+</div>
+{% endblock %}
+
+
+{# 
+<h1 class="">  </h1>
     <div class="row">    
 
-        <h4>Question: {{ assignment.question }}</h4>
-        <h4>Deadline: {{ assignment.deadline | date('d/m/Y') }} </h4>        
+        <h4>Question: </h4>
+        <h4>Deadline: </h4>        
         <h4>Student List: </h4>
-        {% if assignment.student != null %}
-            {% for s in assignment.student %}
-                <a href="{{ path('view_student', {'id': s.id })}}">
-                    <h5> {{ s.name }} </h5>
-                </a>
-                {% endfor %}
-        {% endif %}
-        <a class = "btn btn-primary col-3" href="{{ path('add_answer',{'id':assignment.id})}}" >Add answer</a>
-        <a class = "btn btn-success col-3" href="{{ path('edit_answer', {'id':assignment.id})}}">Edit answer</a>
+        
+        <a class = "btn btn-primary col-2" href="{{ path('add_answer',{'id':assignment.id})}}" >Add answer</a>
+        <a class = "btn btn-success col-2" href="{{ path('edit_answer', {'id':assignment.id})}}">Edit answer</a>
         
         <h1>Answer</h1>
         <h4>Answer: {{ assignment.answer }} </h4>
         <h4>Date Submit: {{ assignment.datesubmit | date('d/m/Y') }} </h4>
 
-        <a class = "btn btn-primary col-3" href="{{ path('add_feedback', {'id':assignment.id})}}" >Add Feedback</a>
-        <a class = "btn btn-success col-3" href="{{ path('edit_feedback', {'id':assignment.id})}}">Edit Feedback</a>
+        <a class = "btn btn-primary col-2" href="{{ path('add_feedback', {'id':assignment.id})}}" >Add Feedback</a>
+        <a class = "btn btn-success col-2" href="{{ path('edit_feedback', {'id':assignment.id})}}">Edit Feedback</a>
 
         <h1>Feedback</h1>
-        <h4>Feeback: {{ assignment.grade }} </h4>
+        <h4>Feeback:  </h4>
         <h4>Comment: {{ assignment.comment }}</h4>
         <h4>Date Feedback: {{ assignment.datefeedback | date('d/m/Y') }} </h4>
-    </div>
-</div>
-{% endblock %}
+    </div> #}

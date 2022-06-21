@@ -25,9 +25,10 @@ class AnswerQType extends AbstractType
             ])
             ->add('Datesubmit', DateType::class, 
             [
-                'label' => 'Date Submit'
+                'label' => 'Date Submit',
+                'widget' => 'single_text'
             ])
-            ->add('Save', SubmitType::class)
+            ->add('Submit', SubmitType::class)
         ;
     }
 

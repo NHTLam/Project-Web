@@ -134,7 +134,7 @@ class AssigmentController extends AbstractController
             $this->addFlash("Success", "Submit answer succeed");
             return $this->redirectToRoute('view_assignment');
         }
-        return $this->render('assignment/add_answer.html.twig', 
+        return $this->render('answer/add.html.twig', 
         [
             'answerForm' => $form->createView()
         ]);
@@ -159,7 +159,7 @@ class AssigmentController extends AbstractController
                 return $this->redirectToRoute('view_assignment');
             }
         }
-        return $this->render('assignment/edit_answer.html.twig', [
+        return $this->render('answer/edit.html.twig', [
             'answerForm' => $form ->createView()
         ]);
     }
@@ -178,7 +178,7 @@ class AssigmentController extends AbstractController
             $this->addFlash("Success", "Submit feedback succeed");
             return $this->redirectToRoute('view_assignment');
         }
-        return $this->render('assignment/add_feedback.html.twig', 
+        return $this->render('feedback/add.html.twig', 
         [
             'feedbackForm' => $form->createView()
         ]);
@@ -203,7 +203,7 @@ class AssigmentController extends AbstractController
                 return $this->redirectToRoute('view_assignment');
             }
         }
-        return $this->render('assignment/edit_feedback.html.twig', [
+        return $this->render('feedback/edit.html.twig', [
             'feedbackForm' => $form ->createView()
         ]);
     }
@@ -212,7 +212,7 @@ class AssigmentController extends AbstractController
     public function FeedbackIndex(AssignmentRepository $assignmentRepository)
     {
         $assignments = $assignmentRepository->findAll();
-        return $this->render('assignment/index_feedback.html.twig',
+        return $this->render('feedback/index.html.twig',
         [
             'assignments' => $assignments
         ]);

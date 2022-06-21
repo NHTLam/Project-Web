@@ -1,7 +1,8 @@
+{% form_theme feedbackForm "bootstrap_5_layout.html.twig"%}
 {% extends "base.html.twig" %}
 {% block body %}
-    <div class="container col-md-7 text-center mt-3">
-        <h1 class="text text-bg-success">Add new feedback</h1>
+    <div class="asm col-md-5 mt-3">
+        <h4 class="">Add new feedback</h4>
         {{ form_start (feedbackForm) }}
         {{ form_end ( feedbackForm) }}
     </div>

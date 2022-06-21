@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 {% block body %}
-<div class=" col-md-5 mt-3 asm">
-    <h1> Assignment Detail</h1>
+<div class="col-sm-10 mt-3 asm">
+    <h3> Assignment Detail</h3>
     <table class="table table-striped asmdetail">       
         <tr>
             <th>Title</th>
@@ -20,7 +20,7 @@
             <td>
                 {% if assignment.student != null %}
                     {% for s in assignment.student %}
-                    <a class="title " href="{{ path('view_student', {'id': s.id })}}">
+                    <a class="title " href="{{ path('view_student_by_id', {'id': s.id })}}">
                         <h6> {{ s.name }} </h6>
                     </a>
                     {% endfor %}
@@ -28,13 +28,16 @@
             </td>
         </tr>
     </table>
-        {% if assignment.answer == null %}
-            <a class = "btn btn-primary col-5 editbtn" href="{{ path('add_answer',{'id':assignment.id})}}" >Add answer</a>
+    
+        {% if assignment.grade == null %}
+            {% if assignment.answer == null %}
+                <a class = "btn btn-outline-primary col-5 editbtn" href="{{ path('add_answer',{'id':assignment.id})}}" >Submit answer</a>      
+            {% else %}            
+                <a class = "btn btn-outline-success col-5 editbtn" href="{{ path('edit_answer', {'id':assignment.id})}}">Edit answer</a>
+            {% endif %}
         {% endif %}
+    
         
-        
-        <a class = "btn btn-success col-5 editbtn" href="{{ path('edit_answer', {'id':assignment.id})}}">Edit answer</a>
-
     <table class="table table-striped asmdetail">  
         <tr>
             <th>Answer</th>
@@ -42,15 +45,21 @@
         </tr>
         <tr>
             <th>Date Submit</th>
-            <td>{{ assignment.datesubmit | date('d/m/Y') }}</td>
+            <td>
+                {% if assignment.datesubmit != null %}
+                    {{ assignment.datesubmit | date('d/m/Y') }}
+                {% endif %}                               
+            </td>
         </tr>
     </table>
 
         {% if assignment.grade == null %}
-            <a class = "btn btn-primary col-5 editbtn" href="{{ path('add_feedback', {'id':assignment.id})}}" >Add Feedback</a>
+            <a class = "btn btn-outline-primary col-5 editbtn" href="{{ path('add_feedback', {'id':assignment.id})}}" >Add Feedback</a>
+        {% else %}
+            <a class = "btn btn-outline-success col-5 editbtn" href="{{ path('edit_feedback', {'id':assignment.id})}}">Edit Feedback</a>
         {% endif %}       
         
-        <a class = "btn btn-success col-5 editbtn" href="{{ path('edit_feedback', {'id':assignment.id})}}">Edit Feedback</a>
+        
 
     <table class="table table-striped">  
         <tr>
@@ -61,9 +70,13 @@
             <th>Comment</th>
             <td>{{ assignment.comment }}</td>
         </tr>
-        <tr>
-            <th>Date Feedback</th>
-            <td>{{ assignment.datefeedback | date('d/m/Y') }}</td>
+        <tr>                  
+            <th>Date Feedback</th>            
+            <td>
+                {% if assignment.datefeedback != null %}
+                    {{ assignment.datefeedback | date('d/m/Y') }}
+                {% endif %}                
+            </td>
         </tr>
     </table>
 

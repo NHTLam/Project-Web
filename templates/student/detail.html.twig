@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<div class="col-md-6 mt-3 asm">
+    <div class="row">
+        <div class="col">
+            <h5>Name: {{student.name }} </h5>
+            <h5>Birthday: {{ student.birthdate | date('d/m/Y')}} </h5>
+            <h5>Email: {{ student.email }} </h5>
+            <h5>Address: {{ student.address }} </h5>
+            <h5>Assignment List: </h5>
+            {% if student.assignment != null %}
+                {% for a in student.assignment %}
+                    <a class="title" href="{{ path('view_assignment_by_id', {'id': a.id })}}">
+                        <h5> {{ a.title }} </h5>
+                    </a>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col">        
+            <img id="avt" src="{{ asset(student.image) }}" width="250" height="250">
+        </div>
+</div>
+{% endblock %}

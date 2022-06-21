@@ -19,3 +19,7 @@
 table.table.table-striped.asmdetail {
     margin-bottom: 0;
 }
+
+#avt {
+    border-radius: 8px;
+}

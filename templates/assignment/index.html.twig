@@ -3,14 +3,17 @@
     <div class="container-flush col-sm-10 ml-3 mt-3 asm">
         <div class="">
             <h2>List Assignment</h2>
+            <a class="btn btn-success addbtn" href="{{ path('view_feedback')}}">View all feedback</a>
             <a class="btn btn-primary addbtn" href="{{ path('add_assignment')}}">Add new assignment</a>
         </div>
         
-        <table class="table table-hover table-striped mt-3 ">
+        <table class="table table-hover table-striped mt-5 ">
             <thead>
                 <tr>
                     <th>Title</th>
                     <th>Deadline</th>
+                    <th>Status Submit</th>
+                    <th>Status Feedback</th>
                 </tr>
             </thead>
                 {% for a in assignments %}
@@ -21,6 +24,20 @@
                             </a>
                         </td>
                         <td>{{ a.deadline | date('d/m/Y') }}</td>
+                        <td>
+                            {% if a.answer == null %}
+                            Not yet
+                            {% else %}
+                            Submitted
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if a.grade == null %}
+                            Not yet
+                            {% else %}
+                            Feedbacked
+                            {% endif %}
+                        </td>
                         <td>         
                             <a class="btn btn-warning addbtn" href="{{ path('edit_assignment', {'id': a.id})}}">Edit</a>               
                             <a class="btn btn-danger addbtn" href="{{ path('delete_assignment', {'id': a.id})}}"

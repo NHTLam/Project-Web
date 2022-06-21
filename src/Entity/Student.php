@@ -36,6 +36,9 @@ class Student
     #[ORM\ManyToMany(targetEntity: Assignment::class, mappedBy: 'Student')]
     private $assignment;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $image;
+
     public function __construct()
     {
         $this->assignment = new ArrayCollection();
@@ -131,6 +134,18 @@ class Student
         if ($this->assignment->removeElement($assignment)) {
             $assignment->removeStudent($this);
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

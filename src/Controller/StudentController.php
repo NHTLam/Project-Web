@@ -12,13 +12,13 @@ class StudentController extends AbstractController
 {
     
 
-    #[Route('/', name: 'view_student')]
-    public function FeedbackIndex(StudentRepository $studentRepository)
+    #[Route('/student/{id}', name: 'view_student_by_id')]
+    public function FeedbackIndex(StudentRepository $studentRepository, $id)
     {
-        $students = $studentRepository->findAll();        
+        $student = $studentRepository->find($id);        
         return $this->render('student/detail.html.twig', 
         [
-            'students' => $students
+            'student' => $student
         ]);
     }
 }

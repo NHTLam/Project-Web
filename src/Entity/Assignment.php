@@ -28,13 +28,26 @@ class Assignment
     #[ORM\ManyToMany(targetEntity: Student::class, inversedBy: 'assignment')]
     private $Student;
 
-    #[ORM\OneToOne(targetEntity: AnswerQ::class, inversedBy: 'answer_q')]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $answer;
+
+    #[ORM\Column(type: 'date', nullable: true)]
+    private $datesubmit;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $grade;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $comment;
+
+    #[ORM\Column(type: 'date', nullable: true)]
+    private $datefeedback;
 
 
     public function __construct()
     {
-        $this->Student = new ArrayCollection();        
+        $this->Student = new ArrayCollection();   
+
     }
 
     
@@ -84,6 +97,8 @@ class Assignment
         return $this;
     }
 
+ 
+
     /**
      * @return Collection<int, Student>
      */
@@ -104,6 +119,66 @@ class Assignment
     public function removeStudent(Student $student): self
     {
         $this->Student->removeElement($student);
+
+        return $this;
+    }
+
+    public function getAnswer(): ?string
+    {
+        return $this->answer;
+    }
+
+    public function setAnswer(?string $answer): self
+    {
+        $this->answer = $answer;
+
+        return $this;
+    }
+
+    public function getDatesubmit(): ?\DateTimeInterface
+    {
+        return $this->datesubmit;
+    }
+
+    public function setDatesubmit(?\DateTimeInterface $datesubmit): self
+    {
+        $this->datesubmit = $datesubmit;
+
+        return $this;
+    }
+
+    public function getGrade(): ?float
+    {
+        return $this->grade;
+    }
+
+    public function setGrade(?float $grade): self
+    {
+        $this->grade = $grade;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(string $comment): self
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getDatefeedback(): ?\DateTimeInterface
+    {
+        return $this->datefeedback;
+    }
+
+    public function setDatefeedback(?\DateTimeInterface $datefeedback): self
+    {
+        $this->datefeedback = $datefeedback;
 
         return $this;
     }

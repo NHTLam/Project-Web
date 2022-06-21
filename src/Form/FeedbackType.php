@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Feedback;
 use App\Entity\Assignment;
+use PhpParser\Node\Expr\Assign;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -36,15 +37,6 @@ class FeedbackType extends AbstractType
                 'label' => 'Date Feedback',
                 'widget' => 'single_text'
             ])
-            ->add('assignment', EntityType::class, 
-            [
-                'label' => 'Assignment',
-                'required' => true,
-                'class' => Assignment::class,
-                'choice_label' => 'title',
-                'multiple' => false,
-                'expanded' => false
-            ])
             ->add('Save', SubmitType::class)
         ;
     }
@@ -52,7 +44,7 @@ class FeedbackType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'date_class' => Feedback::class
+            'date_class' => Assignment::class
         ]);
     }
 }

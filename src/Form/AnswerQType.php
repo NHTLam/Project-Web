@@ -27,16 +27,6 @@ class AnswerQType extends AbstractType
             [
                 'label' => 'Date Submit'
             ])
-            ->add('Assignment', EntityType::class, 
-            [
-                'label'=> 'Assignment',
-                'required' => true,
-                'mapped' => false,
-                'class' => Assignment::class,
-                'choice_label' => 'Title',
-                'multiple' => true,
-                'expanded' => true
-            ])
             ->add('Save', SubmitType::class)
         ;
     }
@@ -44,7 +34,7 @@ class AnswerQType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class'=> AnswerQ::class
+            'data_class'=> Assignment::class
         ]);
     }
 }

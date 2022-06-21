@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Form\AnswerQType;
 use App\Entity\Assignment;
+use App\Form\FeedbackType;
 use App\Form\AssignmentType;
 use App\DataFixtures\Assigment;
 use App\Repository\AssignmentRepository;
@@ -99,6 +101,96 @@ class AssigmentController extends AbstractController
             'assignmentForm' => $form
         ]);
 
+    }
+
+
+
+    #[Route('/answer/add/{id}', name: 'add_answer')]
+    public function AnswerAdd(AssignmentRepository $assignmentRepository, Request $request, $id)
+    {
+        $answer = $assignmentRepository->find($id);
+        $form = $this->createForm(AnswerQType::class, $answer);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($answer);
+            $manager->flush();
+            $this->addFlash("Success", "Submit answer succeed");
+            return $this->redirectToRoute('view_assignment');
+        }
+        return $this->render('assignment/add_answer.html.twig', 
+        [
+            'answerForm' => $form->createView()
+        ]);
+    }
+
+    #[Route('/answer/edit/{id}', name: 'edit_answer')]
+    public function AnswerEdit(AssignmentRepository $assignmentRepository, Request $request, $id)
+    {
+        $answer = $assignmentRepository->find($id);
+        if ($answer == null) {
+            $this->addFlash("Error", "Answer not found");
+        }
+        else
+        {
+            $form = $this->createForm(AnswerQType::class, $answer);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $manager = $this->getDoctrine()->getManager();
+                $manager->persist($answer);
+                $manager->flush();
+                $this->addFlash("Success", "Edit submit succeed");
+                return $this->redirectToRoute('view_assignment');
+            }
+        }
+        return $this->render('assignment/edit_answer.html.twig', [
+            'answerForm' => $form ->createView()
+        ]);
+    }
+
+    #[Route('/feedback/add/{id}', name: 'add_feedback')]
+    public function FeedbackAdd(AssignmentRepository $assignmentRepository, Request $request, $id)
+    {
+        $feedback = $assignmentRepository->find($id);
+        $form = $this->createForm(FeedbackType::class, $feedback);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($feedback);
+            $manager->flush();
+            $this->addFlash("Success", "Submit feedback succeed");
+            return $this->redirectToRoute('view_assignment');
+        }
+        return $this->render('assignment/add_feedback.html.twig', 
+        [
+            'feedbackForm' => $form->createView()
+        ]);
+    }
+
+    #[Route('/feedback/edit/{id}', name: 'edit_feedback')]
+    public function FeedbackEdit(AssignmentRepository $assignmentRepository, Request $request, $id)
+    {
+        $feedback = $assignmentRepository->find($id);
+        if ($feedback == null) {
+            $this->addFlash("Error", "Feedback not found");
+        }
+        else
+        {
+            $form = $this->createForm(FeedbackType::class, $feedback);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $manager = $this->getDoctrine()->getManager();
+                $manager->persist($feedback);
+                $manager->flush();
+                $this->addFlash("Success", "Edit feedback succeed");
+                return $this->redirectToRoute('view_assignment');
+            }
+        }
+        return $this->render('assignment/edit_feedback.html.twig', [
+            'feedbackForm' => $form ->createView()
+        ]);
     }
 
 }

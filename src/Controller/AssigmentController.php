@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTimeZone;
 use App\Form\AnswerQType;
 use App\Entity\Assignment;
 use App\Form\FeedbackType;
@@ -9,12 +10,13 @@ use App\Form\AssignmentType;
 use App\DataFixtures\Assigment;
 use App\Repository\AssignmentRepository;
 use Symfony\Component\HttpFoundation\Request;
+use function PHPUnit\Framework\throwException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-
-use function PHPUnit\Framework\throwException;
 
 #[Route('/assignment')]
 class AssigmentController extends AbstractController
@@ -155,15 +157,18 @@ class AssigmentController extends AbstractController
     //     return $this->redirectToRoute("view_assignment");
     // }
 
+    
     #[Route('/answer/add/{id}', name: 'add_answer')]
     public function AnswerAdd(AssignmentRepository $assignmentRepository, Request $request, $id)
-    {
-       
+    {       
+        
         $answer = $assignmentRepository->find($id);
         $form = $this->createForm(AnswerQType::class, $answer);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+            $now = new \DateTime();
+            $now->format('Y-m-d H:i:s');
             $sub = $answer->getAnswer();
                 $ansName = uniqid();
                 $ansExtension = $sub->guessExtension();
@@ -176,6 +181,7 @@ class AssigmentController extends AbstractController
                     throwException($e);
                 }
                 $answer->setAnswer($answerName);
+                $answer->setDatesubmit($now);
 
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($answer);
@@ -202,6 +208,8 @@ class AssigmentController extends AbstractController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) 
             {
+                $now = new \DateTime();
+                $now->format('Y-m-d H:i:s');
                 $sub = $answer->getAnswer();
                 $ansName = uniqid();
                 $ansExtension = $sub->guessExtension();
@@ -214,7 +222,7 @@ class AssigmentController extends AbstractController
                     throwException($e);
                 }
                 $answer->setAnswer($answerName);
-
+                $answer->setDatesubmit($now);
                 $manager = $this->getDoctrine()->getManager();
                 $manager->persist($answer);
                 $manager->flush();
@@ -230,11 +238,16 @@ class AssigmentController extends AbstractController
     #[Route('/feedback/add/{id}', name: 'add_feedback')]
     public function FeedbackAdd(AssignmentRepository $assignmentRepository, Request $request, $id)
     {
+        $now = new \DateTime();
+        $now->format('Y-m-d H:i:s');
         $feedback = $assignmentRepository->find($id);
         $form = $this->createForm(FeedbackType::class, $feedback);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+            $now = new \DateTime();
+            $now->format('Y-m-d H:i:s');
+            $feedback->setDatefeedback($now);
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($feedback);
             $manager->flush();
@@ -259,6 +272,9 @@ class AssigmentController extends AbstractController
             $form = $this->createForm(FeedbackType::class, $feedback);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                $now = new \DateTime();
+                $now->format('Y-m-d H:i:s');
+                $feedback->setDatefeedback($now);
                 $manager = $this->getDoctrine()->getManager();
                 $manager->persist($feedback);
                 $manager->flush();

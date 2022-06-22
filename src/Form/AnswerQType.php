@@ -26,11 +26,12 @@ class AnswerQType extends AbstractType
                 'data_class'=> null,
                 'required' => is_null($builder->getData()->getAnswer())     
             ])
-            ->add('Datesubmit', DateType::class, 
-            [
-                'label' => 'Date Submit',
-                'widget' => 'single_text'
-            ])
+            // ->add('Datesubmit', DateType::class, 
+            // [
+            //     'label' => 'Date Submit',
+            //     'widget' => 'single_text'
+                
+            // ])
             ->add('Submit', SubmitType::class)
         ;
     }

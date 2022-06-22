@@ -32,11 +32,11 @@ class FeedbackType extends AbstractType
                 'label'=> 'Comment',
                 'required' => true
             ])
-            ->add('DateFeedback', DateType::class,
-            [
-                'label' => 'Date Feedback',
-                'widget' => 'single_text'
-            ])
+            // ->add('DateFeedback', DateType::class,
+            // [
+            //     'label' => 'Date Feedback',
+            //     'widget' => 'single_text'
+            // ])
             ->add('Save', SubmitType::class)
         ;
     }

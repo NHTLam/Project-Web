@@ -39,7 +39,8 @@ class RegistrationFormType extends AbstractType
                     'lecturer' => 'ROLE_LECTURER',
                     'student' => 'ROLE_STUDENT'
                 ),
-                'multiple' => true
+                'multiple' => true,
+                'expanded' => true 
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,

@@ -71,7 +71,7 @@ class Assignment
         return $this;
     }
 
-    public function getQuestion(): ?string
+    public function getQuestion()
     {
         return $this->question;
     }
@@ -123,12 +123,12 @@ class Assignment
         return $this;
     }
 
-    public function getAnswer(): ?string
+    public function getAnswer()
     {
         return $this->answer;
     }
 
-    public function setAnswer(?string $answer): self
+    public function setAnswer($answer): self
     {
         $this->answer = $answer;
 

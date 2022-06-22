@@ -4,12 +4,14 @@
     <h3> Assignment Detail</h3>
     <table class="table table-striped asmdetail">       
         <tr>
-            <th>Title</th>
+            <th style="width: 50%">Title</th>
             <td>{{ assignment.title }}</td>
         </tr>
         <tr>
             <th>Question</th>
-            <td>{{ assignment.question }}</td>
+            <td>
+                <a class="title " href="{{ asset('question/'~assignment.question)}}" download="{{ assignment.question }}">{{ assignment.question }}</a>                
+            </td>
         </tr>
         <tr>
             <th>Deadline</th>
@@ -40,8 +42,11 @@
         
     <table class="table table-striped asmdetail">  
         <tr>
-            <th>Answer</th>
-            <td>{{ assignment.answer }}</td>
+            <th style="width: 50%">Answer</th>
+            <td>
+                <a class="title " href="{{ asset('answer/'~assignment.answer)}}" download="{{ assignment.answer }}">{{ assignment.answer }}</a>   
+                
+            </td>
         </tr>
         <tr>
             <th>Date Submit</th>
@@ -63,7 +68,7 @@
 
     <table class="table table-striped">  
         <tr>
-            <th>Grade</th>
+            <th style="width: 50%">Grade</th>
             <td>{{ assignment.grade }}</td>
         </tr>
         <tr>

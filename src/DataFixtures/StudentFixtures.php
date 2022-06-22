@@ -16,7 +16,8 @@ class StudentFixtures extends Fixture
             $student->setGender("Male");
             $student->setBirthdate(\DateTime::createFromFormat('Y/m/d', '2002/02/16'));
             $student->setAddress("Ha Noi");
-            $student->setEmail("student@fpt.edn.vn");
+            $student->setEmail("student$i@fpt.edn.vn");
+            $student->setImage("student$i.jpg");
             $manager->persist($student);
         }
 

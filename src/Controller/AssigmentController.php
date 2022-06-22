@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
+use function PHPUnit\Framework\throwException;
 
 #[Route('/assignment')]
 class AssigmentController extends AbstractController
@@ -64,7 +67,23 @@ class AssigmentController extends AbstractController
         $assignment = new Assignment;
         $form = $this->createForm(AssignmentType::class, $assignment);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            $question = $assignment->getQuestion();
+
+            $quesName = uniqid();
+
+            $quesExtension = $question->guessExtension();
+            $questionName = $quesName . "." . $quesExtension;
+             try {
+                $question->move (
+                    $this->getParameter('assignment_question'),$questionName
+                );
+            } catch (FileException $e) {
+                throwException($e);
+            }
+            $assignment->setQuestion($questionName);
+
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($assignment);
             $manager->flush();
@@ -89,6 +108,22 @@ class AssigmentController extends AbstractController
             $form = $this->createForm(AssignmentType::class, $assignment);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+
+                $question = $assignment->getQuestion();
+
+            $quesName = uniqid();
+
+            $quesExtension = $question->guessExtension();
+            $questionName = $quesName . "." . $quesExtension;
+             try {
+                $question->move (
+                    $this->getParameter('assignment_question'),$questionName
+                );
+            } catch (FileException $e) {
+                throwException($e);
+            }
+            $assignment->setQuestion($questionName);
+
                 $manager = $this->getDoctrine()->getManager();
                 $manager->persist($assignment);
                 $manager->flush();
@@ -123,11 +158,25 @@ class AssigmentController extends AbstractController
     #[Route('/answer/add/{id}', name: 'add_answer')]
     public function AnswerAdd(AssignmentRepository $assignmentRepository, Request $request, $id)
     {
+       
         $answer = $assignmentRepository->find($id);
         $form = $this->createForm(AnswerQType::class, $answer);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+            $sub = $answer->getAnswer();
+                $ansName = uniqid();
+                $ansExtension = $sub->guessExtension();
+                $answerName = $ansName . "." . $ansExtension;
+                try {
+                    $sub->move (
+                        $this->getParameter('assignment_answer'),$answerName
+                    );
+                } catch (FileException $e) {
+                    throwException($e);
+                }
+                $answer->setAnswer($answerName);
+
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($answer);
             $manager->flush();
@@ -151,7 +200,21 @@ class AssigmentController extends AbstractController
         {
             $form = $this->createForm(AnswerQType::class, $answer);
             $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) 
+            {
+                $sub = $answer->getAnswer();
+                $ansName = uniqid();
+                $ansExtension = $sub->guessExtension();
+                $answerName = $ansName . "." . $ansExtension;
+                try {
+                    $sub->move (
+                        $this->getParameter('assignment_answer'),$answerName
+                    );
+                } catch (FileException $e) {
+                    throwException($e);
+                }
+                $answer->setAnswer($answerName);
+
                 $manager = $this->getDoctrine()->getManager();
                 $manager->persist($answer);
                 $manager->flush();
@@ -216,6 +279,37 @@ class AssigmentController extends AbstractController
         [
             'assignments' => $assignments
         ]);
+    }
+
+    #[Route('/sortbydl/asc', name: 'sort_assignment_deadline_ascending')]
+    public function CourseSortAscending(AssignmentRepository $assignmentRepository) {
+        $assignments = $assignmentRepository->sortByDeadlineAscending();
+        return $this->render(
+            "assignment/index.html.twig",
+            [
+                'assignments' => $assignments
+            ]);
+    }
+
+    #[Route('/sortbydl/desc', name: 'sort_assignment_deadline_descending')]
+    public function CourseSortDescending(AssignmentRepository $assignmentRepository) {
+        $assignments = $assignmentRepository->sortByDeadlineDescending();
+        return $this->render(
+            "assignment/index.html.twig",
+            [
+                'assignments' => $assignments
+            ]);
+    }
+
+    #[Route('/AssignmentSearchByTitle', name: 'search_assignment_title')]
+    public function AssignmentSearchByTitle (AssignmentRepository $assignmentRepository, Request $request) {
+        $title = $request->get('keyword');
+        $assignments = $assignmentRepository->searchByTitle($title);
+        return $this->render(
+            "assignment/index.html.twig",
+            [
+                'assignments' => $assignments
+            ]);
     }
 
 }

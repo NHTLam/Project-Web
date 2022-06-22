@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -21,9 +22,11 @@ class AssignmentType extends AbstractType
             [
                 'label'=> 'Title'
             ])
-            ->add('Question', TextType::class, 
+            ->add('Question', FileType::class, 
             [
-                'label' => 'Question'                
+                'label' => 'Question',
+                'data_class' => null,
+                'required' => is_null($builder->getData()->getQuestion())                
             ])
             ->add('Deadline', DateType::class, 
             [

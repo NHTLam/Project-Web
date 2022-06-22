@@ -47,32 +47,42 @@ class AssignmentRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Assignment[] Returns an array of Assignment objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Assignment[]
+     */
+    public function sortByDeadlineAscending()
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+            ->orderBy('a.deadline', "ASC")
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Assignment
+    /**
+     * @return Assignment[]
+     */
+    public function sortByDeadlineDescending()
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+            ->orderBy('a.deadline', "DESC")
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
+
+    /**
+    * @return Assignment[]
     */
+    public function searchByTitle($title)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.Title LIKE :Title')
+            ->setParameter('Title', '%'. $title . '%')
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

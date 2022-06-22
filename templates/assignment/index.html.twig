@@ -3,10 +3,23 @@
     <div class="container-flush col-sm-10 ml-3 mt-3 asm">
         <div class="">
             <h2>List Assignment</h2>
+            <form class="form-group" action="{{ path('search_assignment_title') }}" method="post">
+                <input class="form-control" type="search" name="keyword" required
+                placeholder="Search by assigmemt title">
+            </form>
+            <div class="form-group mt-3 col-md-6">
+            <select onchange="window.location.href=this.value" class="form-control">
+                <option>Sort by</option>
+                <option value="{{ path('sort_assignment_deadline_ascending')}}">Latest deadline</option>
+                <option value="{{ path('sort_assignment_deadline_descending')}}">Earliest deadline</option>
+            </select>
+            </div>
             <a class="btn btn-success addbtn" href="{{ path('view_feedback')}}">View all feedback</a>
             <a class="btn btn-primary addbtn" href="{{ path('add_assignment')}}">Add new assignment</a>
         </div>
-        
+        {% if assignments == null %}
+            <h4 class="mess">Assignment not found !</h4>
+        {% else %}  
         <table class="table table-hover table-striped mt-5 ">
             <thead>
                 <tr>
@@ -48,5 +61,6 @@
                 {% endfor %}
                     
         </table>
+        {% endif %}
     </div>
 {% endblock %}
